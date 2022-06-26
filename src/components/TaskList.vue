@@ -68,8 +68,9 @@ export default {
     /*this.$store.commit({
       type: "listTasks",
     });*/
-    setTimeout(() => {
-      this.listTasks("listTasks").then(() => console.log("Actions: ran"));
+    setTimeout(async () => {
+      await this.listTasks("listTasks");
+      console.log("Actions: ran");
     }, 2000);
   },
   methods: {

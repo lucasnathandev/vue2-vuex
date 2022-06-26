@@ -29,12 +29,11 @@ export default new Vuex.Store({
     // ES5
     // listTasks: (context, payload) => {
     // ES6
-    listTasks: ({ commit, dispatch }) => {
+    listTasks: async ({ commit, dispatch }) => {
       console.log("action: listTasks");
-      return dispatch("searchTasks").then((tasks) => {
-        console.log("mutation: listTasks");
-        commit("listTasks", { tasks });
-      });
+      const tasks = await dispatch("searchTasks");
+      console.log("mutation: listTasks");
+      commit("listTasks", { tasks });
     },
     searchTasks: () => {
       return new Promise((resolve) => {
