@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 import TaskSave from "./TaskSave.vue";
 import TaskListItem from "./TaskListItem.vue";
@@ -69,23 +69,17 @@ export default {
       type: "listTasks",
     });*/
     setTimeout(() => {
-      this.listTasks({
-        tasks: [
-          { id: 1, title: "Learn Vue", completed: true },
-          { id: 2, title: "Learn Vue Router", completed: true },
-          { id: 3, title: "Learn Vuex", completed: false },
-        ],
-      });
+      this.listTasks("listTasks").then(() => console.log("Actions: ran"));
     }, 2000);
   },
   methods: {
-    // ...mapMutations(["listTasks"]),
-    ...mapMutations({
-      loadTasks: "listTasks", //Alias
-      listTasks: (commit, payload, options) => {
-        commit("listTasks", payload, options);
+    // Using alias ...mapActions({ loadTasks: "listTasks" }),
+    ...mapActions({
+      listTasks: (dispatch, payload, options) => {
+        return dispatch("listTasks", payload, options);
       },
     }),
+    // ...mapMutations(["listTasks"]),
     showCreateTaskForm() {
       if (this.selectedTask) {
         this.selectedTask = undefined;
