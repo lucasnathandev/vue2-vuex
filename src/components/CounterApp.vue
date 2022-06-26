@@ -19,21 +19,21 @@ export default {
   },
   computed: {
     ...mapState({
-      // counter: (state) => state.counter,
-      counter: "counter",
-      counterAlias: "counter",
+      counter: (state) => state.counter.counter,
+      // counter: "counter",
+      counterAlias: (state) => state.counter.counter,
       multipliedCounter(state) {
-        return state.counter * this.localMultiplier;
+        return state.counter.counter * this.localMultiplier;
       },
     }),
     // now we can create more computed properties.
   },
   methods: {
     increment() {
-      this.$store.state.counter++;
+      this.$store.state.counter.counter++;
     },
     decrement() {
-      this.$store.state.counter--;
+      this.$store.state.counter.counter--;
     },
   },
 };

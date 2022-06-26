@@ -3,13 +3,26 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const counterModule = {
+  namespaced: true,
   state: {
     counter: 0,
+  },
+  getters: {
+    actualCounter: (state) => state.counter,
+  },
+};
+
+const tasksModule = {
+  namespaced: true,
+  state: {
     tasks: [],
   },
   getters: {
-    completedTasks: (state) => state.tasks.filter((task) => task.completed),
+    completedTasks: (state, getters, rootState /*,rootGetters*/) => {
+      console.log("Getters: state:", state, rootState);
+      state.tasks.filter((task) => task.completed);
+    },
     todoTasks: (state) => state.tasks.filter((task) => !task.completed),
     totalCompletedTasks: (state, getters) => getters.completedTasks.length,
     searchTaskById: (state) => (id) =>
@@ -29,11 +42,17 @@ export default new Vuex.Store({
     // ES5
     // listTasks: (context, payload) => {
     // ES6
-    listTasks: async ({ commit, dispatch }) => {
+    listTasks: async ({
+      commit,
+      dispatch,
+      state,
+      rootState /*, getters, rootGetters*/,
+    }) => {
       console.log("action: listTasks");
       const tasks = await dispatch("searchTasks");
       console.log("mutation: listTasks");
       commit("listTasks", { tasks });
+      console.log("Actions: state:", state, rootState);
     },
     searchTasks: () => {
       return new Promise((resolve) => {
@@ -47,4 +66,18 @@ export default new Vuex.Store({
       });
     },
   },
+};
+
+const store = new Vuex.Store({
+  state: {
+    user: "Plinio Naves",
+  },
+  modules: {
+    counter: counterModule,
+    tasks: tasksModule,
+  },
 });
+
+console.log("Store", store);
+
+export default store;
