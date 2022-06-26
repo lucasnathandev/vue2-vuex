@@ -50,6 +50,14 @@ export default {
       return this.task && this.task.completed ? "btn-success" : "btn-secondary";
     },
   },
+  created() {
+    if (this.task) {
+      console.log(
+        "Task by id",
+        this.$store.getters.searchTaskById(this.task.id)
+      );
+    }
+  },
   methods: {
     save() {
       const operation = !this.task ? "criar" : "editar";

@@ -12,25 +12,45 @@
       </div>
     </div>
 
-    <ul class="list-group" v-if="tasks.length > 0">
+    <h3 class="font-weight-light mt-4">
+      Todo ({{ $store.getters.todoTasks.length }})
+    </h3>
+
+    <ul class="list-group" v-if="$store.getters.todoTasks.length > 0">
       <TaskListItem
-        v-for="task in tasks"
+        v-for="task in $store.getters.todoTasks"
         :key="task.id"
         :taskProp="task"
         @edit="selectTaskForEdit"
       />
     </ul>
 
-    <p v-else>No task created.</p>
+    <p v-else>No task todo.</p>
+
+    <h3 class="font-weight-light mt-4">
+      Completed ({{ $store.getters.totalCompletedTasks }})
+    </h3>
+
+    <ul class="list-group" v-if="completedTasks.length > 0">
+      <TaskListItem
+        v-for="task in completedTasks"
+        :key="task.id"
+        :taskProp="task"
+        @edit="selectTaskForEdit"
+      />
+    </ul>
+
+    <p v-else>No task completed.</p>
 
     <TaskSave v-if="showForm" :task="selectedTask" />
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import TaskSave from "./TaskSave.vue";
 import TaskListItem from "./TaskListItem.vue";
-
 export default {
   components: {
     TaskSave,
@@ -40,12 +60,13 @@ export default {
     return {
       showForm: false,
       selectedTask: undefined,
-      tasks: [
-        { id: 1, title: "Learn Vue", completed: true },
-        { id: 2, title: "Learn Vue Router", completed: true },
-        { id: 3, title: "Learn Vuex", completed: false },
-      ],
     };
+  },
+  computed: {
+    ...mapState(["tasks"]),
+    completedTasks() {
+      return this.$store.getters.completedTasks;
+    },
   },
   methods: {
     showCreateTaskForm() {
