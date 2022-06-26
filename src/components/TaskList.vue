@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapMutations } from "vuex";
 
 import TaskSave from "./TaskSave.vue";
 import TaskListItem from "./TaskListItem.vue";
@@ -65,7 +65,10 @@ export default {
     ...mapGetters(["completedTasks", "todoTasks", "totalCompletedTasks"]),
   },
   created() {
-    this.$store.commit("listTasks", {
+    /*this.$store.commit({
+      type: "listTasks",
+    });*/
+    this.listTasks({
       tasks: [
         { id: 1, title: "Learn Vue", completed: true },
         { id: 2, title: "Learn Vue Router", completed: true },
@@ -74,6 +77,13 @@ export default {
     });
   },
   methods: {
+    // ...mapMutations(["listTasks"]),
+    ...mapMutations({
+      loadTasks: "listTasks", //Alias
+      listTasks: (commit, payload, options) => {
+        commit("listTasks", payload, options);
+      },
+    }),
     showCreateTaskForm() {
       if (this.selectedTask) {
         this.selectedTask = undefined;
