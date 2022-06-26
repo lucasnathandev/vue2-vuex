@@ -18,8 +18,12 @@ export default new Vuex.Store({
   mutations: {
     // listTasks: (state, payload) => {
     // ES6
+    // before state snapshot
     listTasks: (state, { tasks }) => {
+      console.log("before state snapshot");
       state.tasks = tasks;
+      console.log("after state snapshot");
     },
+    // affter state snapshot
   },
 });
