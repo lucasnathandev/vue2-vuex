@@ -64,6 +64,15 @@ export default {
     ...mapState(["tasks"]),
     ...mapGetters(["completedTasks", "todoTasks", "totalCompletedTasks"]),
   },
+  created() {
+    this.$store.commit("listTasks", {
+      tasks: [
+        { id: 1, title: "Learn Vue", completed: true },
+        { id: 2, title: "Learn Vue Router", completed: true },
+        { id: 3, title: "Learn Vuex", completed: false },
+      ],
+    });
+  },
   methods: {
     showCreateTaskForm() {
       if (this.selectedTask) {
