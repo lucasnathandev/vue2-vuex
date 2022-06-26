@@ -12,13 +12,11 @@
       </div>
     </div>
 
-    <h3 class="font-weight-light mt-4">
-      Todo ({{ $store.getters.todoTasks.length }})
-    </h3>
+    <h3 class="font-weight-light mt-4">Todo ({{ todoTasks.length }})</h3>
 
-    <ul class="list-group" v-if="$store.getters.todoTasks.length > 0">
+    <ul class="list-group" v-if="todoTasks.length > 0">
       <TaskListItem
-        v-for="task in $store.getters.todoTasks"
+        v-for="task in todoTasks"
         :key="task.id"
         :taskProp="task"
         @edit="selectTaskForEdit"
@@ -28,7 +26,7 @@
     <p v-else>No task todo.</p>
 
     <h3 class="font-weight-light mt-4">
-      Completed ({{ $store.getters.totalCompletedTasks }})
+      Completed ({{ totalCompletedTasks }})
     </h3>
 
     <ul class="list-group" v-if="completedTasks.length > 0">
@@ -47,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import TaskSave from "./TaskSave.vue";
 import TaskListItem from "./TaskListItem.vue";
@@ -64,9 +62,7 @@ export default {
   },
   computed: {
     ...mapState(["tasks"]),
-    completedTasks() {
-      return this.$store.getters.completedTasks;
-    },
+    ...mapGetters(["completedTasks", "todoTasks", "totalCompletedTasks"]),
   },
   methods: {
     showCreateTaskForm() {
