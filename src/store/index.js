@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import counter from "@/store/modules/counter";
-import tasks from "@/store/modules/tasks";
+import counter from "@/resources/counter/_store";
+import tasks from "@/resources/tasks/_store";
 
 Vue.use(Vuex);
 

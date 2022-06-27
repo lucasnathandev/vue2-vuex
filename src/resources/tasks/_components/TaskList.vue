@@ -47,8 +47,8 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 
-import TaskSave from "./TaskSave.vue";
-import TaskListItem from "./TaskListItem.vue";
+import TaskSave from "../../../resources/tasks/_components/TaskSave.vue";
+import TaskListItem from "../../../resources/tasks/_components/TaskListItem.vue";
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers("tasks");
 

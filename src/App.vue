@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import CounterApp from "@/components/CounterApp.vue";
-import TaskList from "@/components/TaskList.vue";
+import CounterApp from "@/resources/counter/_components/CounterApp.vue";
+import TaskList from "@/resources/tasks/_components/TaskList.vue";
 
 export default {
   components: {
