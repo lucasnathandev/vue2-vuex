@@ -54,7 +54,7 @@ export default {
     if (this.task) {
       console.log(
         "Task by id",
-        this.$store.getters.searchTaskById(this.task.id)
+        this.$store.getters["tasks/searchTaskById"](this.task.id)
       );
     }
   },

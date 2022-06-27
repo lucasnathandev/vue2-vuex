@@ -21,12 +21,18 @@ const tasksModule = {
   getters: {
     completedTasks: (state, getters, rootState /*,rootGetters*/) => {
       console.log("Getters: state:", state, rootState);
-      state.tasks.filter((task) => task.completed);
+      return state.tasks.filter((task) => task.completed);
     },
     todoTasks: (state) => state.tasks.filter((task) => !task.completed),
     totalCompletedTasks: (state, getters) => getters.completedTasks.length,
     searchTaskById: (state) => (id) =>
       state.tasks.find((task) => task.id === id),
+    welcome: (state, getters, rootState, rootGetters) => {
+      //Accessing global getters and state into namespaced modules
+      console.log("Global State:", rootState.user);
+      console.log("Global Getter:", rootGetters.welcomeMessage);
+      return rootGetters.welcomeMessage;
+    },
   },
   mutations: {
     // listTasks: (state, payload) => {
@@ -71,6 +77,9 @@ const tasksModule = {
 const store = new Vuex.Store({
   state: {
     user: "Plinio Naves",
+  },
+  getters: {
+    welcomeMessage: (state) => `Hello ${state.user}`,
   },
   modules: {
     counter: counterModule,

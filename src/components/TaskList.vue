@@ -45,10 +45,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
 
 import TaskSave from "./TaskSave.vue";
 import TaskListItem from "./TaskListItem.vue";
+
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers("tasks");
+
 export default {
   components: {
     TaskSave,
@@ -62,7 +65,12 @@ export default {
   },
   computed: {
     ...mapState(["tasks"]),
-    ...mapGetters(["completedTasks", "todoTasks", "totalCompletedTasks"]),
+    ...mapGetters([
+      "completedTasks",
+      "todoTasks",
+      "totalCompletedTasks",
+      "welcome",
+    ]),
   },
   created() {
     /*this.$store.commit({
@@ -71,7 +79,8 @@ export default {
     setTimeout(async () => {
       await this.listTasks("listTasks");
       console.log("Actions: ran");
-    }, 2000);
+    }, 1000);
+    console.log("Welcome: ", this.welcome);
   },
   methods: {
     // Using alias ...mapActions({ loadTasks: "listTasks" }),

@@ -10,7 +10,10 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState } = createNamespacedHelpers("counter");
+
 export default {
   data() {
     return {
@@ -19,11 +22,11 @@ export default {
   },
   computed: {
     ...mapState({
-      counter: (state) => state.counter.counter,
+      counter: (state) => state.counter,
       // counter: "counter",
-      counterAlias: (state) => state.counter.counter,
+      counterAlias: (state) => state.counter,
       multipliedCounter(state) {
-        return state.counter.counter * this.localMultiplier;
+        return state.counter * this.localMultiplier;
       },
     }),
     // now we can create more computed properties.
@@ -33,7 +36,8 @@ export default {
       this.$store.state.counter.counter++;
     },
     decrement() {
-      this.$store.state.counter.counter--;
+      if (this.$store.state.counter.counter > 0)
+        this.$store.state.counter.counter--;
     },
   },
 };
