@@ -1,5 +1,7 @@
+import { LIST_TASKS } from "./mutation-types";
+
 export default {
-  listTasks: (state, { tasks }) => {
+  [LIST_TASKS]: (state, { tasks }) => {
     state.tasks = tasks;
   },
 };

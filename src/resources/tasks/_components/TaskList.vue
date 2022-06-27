@@ -47,6 +47,7 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 
+import register from "../_store/register";
 import TaskSave from "../../../resources/tasks/_components/TaskSave.vue";
 import TaskListItem from "../../../resources/tasks/_components/TaskListItem.vue";
 
@@ -73,16 +74,10 @@ export default {
     ]),
   },
   created() {
-    /*this.$store.commit({
-      type: "listTasks",
-    });*/
+    register(this.$store);
     setTimeout(async () => {
-      console.log("actualUser:", this.welcome);
       await this.listTasks("listTasks");
-      console.log("Actions: ran");
-      console.log("actualUser:", this.welcome);
     }, 1000);
-    console.log("Welcome: ", this.welcome);
   },
   methods: {
     // Using alias ...mapActions({ loadTasks: "listTasks" }),

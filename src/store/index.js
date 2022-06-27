@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import counter from "@/resources/counter/_store";
-import tasks from "@/resources/tasks/_store";
+// import tasks from "@/resources/tasks/_store";
 
 Vue.use(Vuex);
 
@@ -26,13 +26,14 @@ const mutations = {
 };
 
 const store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== "production",
   state,
   getters,
   actions,
   mutations,
   modules: {
     counter,
-    tasks,
+    // tasks,
   },
 });
 
