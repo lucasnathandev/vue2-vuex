@@ -1,14 +1,41 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import counter from "@/store/modules/counter";
+import tasks from "@/store/modules/tasks";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    counter: 0,
+const state = {
+  user: "Plinio",
+};
+
+const getters = {
+  welcomeMessage: (state) => `Hello ${state.user}`,
+};
+
+const actions = {
+  login: ({ commit }, user) => {
+    commit("login", user);
   },
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+};
+
+const mutations = {
+  login: (state, user) => {
+    state.user = user;
+  },
+};
+
+const store = new Vuex.Store({
+  state,
+  getters,
+  actions,
+  mutations,
+  modules: {
+    counter,
+    tasks,
+  },
 });
+
+console.log("Store", store);
+
+export default store;
