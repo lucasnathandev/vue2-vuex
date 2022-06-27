@@ -77,8 +77,10 @@ export default {
       type: "listTasks",
     });*/
     setTimeout(async () => {
+      console.log("actualUser:", this.welcome);
       await this.listTasks("listTasks");
       console.log("Actions: ran");
+      console.log("actualUser:", this.welcome);
     }, 1000);
     console.log("Welcome: ", this.welcome);
   },

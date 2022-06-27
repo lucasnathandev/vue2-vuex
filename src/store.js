@@ -59,6 +59,11 @@ const tasksModule = {
       console.log("mutation: listTasks");
       commit("listTasks", { tasks });
       console.log("Actions: state:", state, rootState);
+      //commit("login", 'Plinio Naves'); // tasks/login (don't work)
+      // commit("login", "Plinio Naves", { root: true }); //Search into global Store (root module) the login mutation
+      // dispatch('login', 'Plinio Naves'); //Do not work.
+      dispatch("login", "Plinio Naves", { root: true }); //login
+      // dispatch("login", null, { root: true }); //login (second argument if null if haven't payload)
     },
     searchTasks: () => {
       return new Promise((resolve) => {
@@ -76,10 +81,20 @@ const tasksModule = {
 
 const store = new Vuex.Store({
   state: {
-    user: "Plinio Naves",
+    user: "Plinio",
   },
   getters: {
     welcomeMessage: (state) => `Hello ${state.user}`,
+  },
+  actions: {
+    login: ({ commit }, user) => {
+      commit("login", user);
+    },
+  },
+  mutations: {
+    login: (state, user) => {
+      state.user = user;
+    },
   },
   modules: {
     counter: counterModule,
