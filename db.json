@@ -2,13 +2,18 @@
   "tasks": [
     {
       "id": 2,
-      "title": "Learn Vue Router",
-      "completed": false
+      "title": "Learn Vue",
+      "completed": true
     },
     {
       "id": 3,
       "title": "Learn Vuex",
       "completed": true
+    },
+    {
+      "title": "Learn Vue-Router",
+      "completed": true,
+      "id": 4
     }
   ]
 }

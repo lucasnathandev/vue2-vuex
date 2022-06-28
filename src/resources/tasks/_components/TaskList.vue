@@ -44,7 +44,9 @@
 
     <p v-else>No task completed.</p>
 
-    <TaskSave v-if="showForm" :task="selectedTask" />
+    <TaskSave v-if="showForm" @save="saveTask" />
+
+    <div class="alert alert-danger" v-if="error">{{ error.message }}</div>
   </div>
 </template>
 
@@ -68,7 +70,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["selectedTask"]),
+    ...mapState(["selectedTask", "error"]),
     ...mapGetters([
       "completedTasks",
       "todoTasks",
@@ -84,6 +86,7 @@ export default {
   methods: {
     ...mapActions([
       "listTasks",
+      "createTask",
       "completeTask",
       "editTask",
       "deleteTask",
@@ -105,11 +108,22 @@ export default {
       }
       this.showForm = !this.showForm;
     },
+    async saveTask(event) {
+      switch (event.operation) {
+        case "create":
+          await this.createTask({ task: event.task });
+          break;
+        case "edit":
+          await this.editTask({ task: event.task });
+          break;
+      }
+      this.reset();
+    },
     selectTaskForEdit(task) {
-      this.showForm = !this.showForm;
+      this.showForm = true;
       this.selectTask({ task });
     },
-    resetar() {
+    reset() {
       this.showForm = false;
       this.resetSelectedTask();
     },

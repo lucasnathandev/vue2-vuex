@@ -11,17 +11,18 @@
               type="text"
               class="form-control"
               placeholder="Task title"
-              :value="task && task.title"
+              v-model="task.title"
             />
           </div>
         </div>
-        <div class="col-sm-2" v-if="task">
+        <div class="col-sm-2" v-if="selectedTask">
           <div class="form-group">
             <label>Task completed?</label>
             <button
               type="button"
               class="btn btn-sm d-block"
               :class="buttonClass"
+              @click="task.completed = !task.completed"
             >
               <i class="fa fa-check" aria-hidden="true"></i>
             </button>
@@ -35,33 +36,42 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState } = createNamespacedHelpers("tasks");
+
 export default {
-  props: {
-    task: {
-      type: Object,
-      default: undefined,
-    },
+  data() {
+    return {
+      task: {},
+    };
   },
   computed: {
+    ...mapState(["selectedTask"]),
     columnClass() {
-      return this.task ? "col-sm-10" : "col-sm-12";
+      return this.selectedTask ? "col-sm-10" : "col-sm-12";
     },
     buttonClass() {
-      return this.task && this.task.completed ? "btn-success" : "btn-secondary";
+      return this.selectedTask && this.task.completed
+        ? "btn-success"
+        : "btn-secondary";
+    },
+  },
+  watch: {
+    selectedTask(newTask) {
+      this.synchronize(newTask);
     },
   },
   created() {
-    if (this.task) {
-      console.log(
-        "Task by id",
-        this.$store.getters["tasks/searchTaskById"](this.task.id)
-      );
-    }
+    this.synchronize(this.selectedTask);
   },
   methods: {
     save() {
-      const operation = !this.task ? "criar" : "editar";
-      console.log("Operação: ", operation);
+      const operation = !this.selectedTask ? "create" : "edit";
+      this.$emit("save", { operation, task: this.task });
+    },
+    synchronize(newTask) {
+      this.task = Object.assign({}, newTask || { title: "", completed: false });
     },
   },
 };

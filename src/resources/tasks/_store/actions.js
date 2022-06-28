@@ -8,22 +8,38 @@ export default {
     dispatch("editTask", { task });
   },
   createTask: ({ commit }, { task }) => {
-    return TasksService.postTask(task).then((res) => {
-      commit(types.CREATE_TASK, { task: res.data });
-    });
+    return TasksService.postTask(task)
+      .then((res) => {
+        commit(types.CREATE_TASK, { task: res.data });
+      })
+      .catch((error) => {
+        commit(types.SET_ERROR, { error });
+      });
   },
   editTask: async ({ commit }, { task }) => {
-    const response = await TasksService.putTask(task);
-    commit(types.EDIT_TASK, { task: response.data });
+    try {
+      const response = await TasksService.putTask(task);
+      commit(types.EDIT_TASK, { task: response.data });
+    } catch (error) {
+      commit(types.SET_ERROR, { error });
+    }
   },
   deleteTask: async ({ commit }, { task }) => {
-    await TasksService.deleteTask(task.id);
-    commit(types.DELETE_TASK, { task });
+    try {
+      await TasksService.deleteTask(task.id);
+      commit(types.DELETE_TASK, { task });
+    } catch (error) {
+      commit(types.SET_ERROR, { error });
+    }
   },
   listTasks: async ({ commit }) => {
-    const response = await TasksService.getTasks();
+    try {
+      const response = await TasksService.getTasks();
 
-    commit(types.LIST_TASKS, { tasks: response.data });
+      commit(types.LIST_TASKS, { tasks: response.data });
+    } catch (error) {
+      commit(types.SET_ERROR, { error });
+    }
   },
   selectTask: ({ commit }, { task }) => {
     commit(types.SELECT_TASK, { task });
