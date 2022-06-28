@@ -20,6 +20,8 @@
         :key="task.id"
         :taskProp="task"
         @edit="selectTaskForEdit"
+        @delete="confirmTaskDelete"
+        @complete="completeTask({ task: $event })"
       />
     </ul>
 
@@ -35,6 +37,8 @@
         :key="task.id"
         :taskProp="task"
         @edit="selectTaskForEdit"
+        @delete="confirmTaskDelete"
+        @complete="completeTask({ task: $event })"
       />
     </ul>
 
@@ -61,11 +65,10 @@ export default {
   data() {
     return {
       showForm: false,
-      selectedTask: undefined,
     };
   },
   computed: {
-    ...mapState(["tasks"]),
+    ...mapState(["selectedTask"]),
     ...mapGetters([
       "completedTasks",
       "todoTasks",
@@ -75,32 +78,40 @@ export default {
   },
   created() {
     register(this.$store);
-    setTimeout(async () => {
-      await this.listTasks("listTasks");
-    }, 1000);
+
+    this.listTasks();
   },
   methods: {
-    // Using alias ...mapActions({ loadTasks: "listTasks" }),
-    ...mapActions({
-      listTasks: (dispatch, payload, options) => {
-        return dispatch("listTasks", payload, options);
-      },
-    }),
-    // ...mapMutations(["listTasks"]),
+    ...mapActions([
+      "listTasks",
+      "completeTask",
+      "editTask",
+      "deleteTask",
+      "selectTask",
+      "resetSelectedTask",
+    ]),
+    confirmTaskDelete(task) {
+      const confirm = window.confirm(
+        "Do you wish to delete the task: " + task.title + "?"
+      );
+      if (confirm) {
+        this.deleteTask({ task });
+      }
+    },
     showCreateTaskForm() {
       if (this.selectedTask) {
-        this.selectedTask = undefined;
+        this.resetSelectedTask();
         return;
       }
       this.showForm = !this.showForm;
     },
     selectTaskForEdit(task) {
-      this.showForm = true;
-      this.selectedTask = task;
+      this.showForm = !this.showForm;
+      this.selectTask({ task });
     },
     resetar() {
       this.showForm = false;
-      this.selectedTask = undefined;
+      this.resetSelectedTask();
     },
   },
 };

@@ -3,6 +3,7 @@ import {
   EDIT_TASK,
   CREATE_TASK,
   DELETE_TASK,
+  SELECT_TASK,
 } from "./mutation-types";
 
 export default {
@@ -19,5 +20,8 @@ export default {
   },
   [LIST_TASKS]: (state, { tasks }) => {
     state.tasks = tasks;
+  },
+  [SELECT_TASK]: (state, { task }) => {
+    state.selectedTask = task;
   },
 };
